@@ -130,8 +130,12 @@ CHANNEL_LAYERS = {
 ```
 
 ## Ways to add connect to Web socket in Angular
-1. https://stackoverflow.com/questions/60952255/connecting-a-websocket-in-angular
-2. 
+1. RXJS web socket: https://stackoverflow.com/questions/60952255/connecting-a-websocket-in-angular
+2. Blog on the same: https://blog.briebug.com/blog/making-use-of-websockets-in-angular
+
+
+## Adding Bootstrap to Angular App
+Please refer to this awesome resource: https://www.freecodecamp.org/news/how-to-add-bootstrap-css-framework-to-an-angular-application/
 
 ## Create User and group
 When socket connection is made, I am generating random user name and storing in the consumer. But, for production grade application we sholud use authenticated user and use that in scoket.

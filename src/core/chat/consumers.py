@@ -16,7 +16,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Accect the socket
         await self.accept()
 
-        await self.send(json.dumps({'message': 'username: ' + self.user_name}))
+        await self.send(json.dumps({'username': self.user_name, 'messageType': 'username'}))
 
     
     async def disconnect(self, code):
@@ -27,14 +27,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # Receives message from Web socket
     async def receive(self, text_data=None, bytes_data=None):
         message = json.loads(text_data)['message']
-        print(self.scope['user'])
 
         # Consumer should have equivalent method to the type passed
-        await self.channel_layer.group_send(self.room_group_name, {"type": "chat.message", "message": f"{self.user_name} : {message}"})
+        await self.channel_layer.group_send(self.room_group_name, {"type": "chat.message", "message": message, 'username': self.user_name})
 
 
     # This receives message from Channel group
     async def chat_message(self, event):
-        await self.send(text_data=json.dumps({'message': event['message']}))
+        await self.send(text_data=json.dumps({'message': event['message'], 'username': event['username']}))
 
         

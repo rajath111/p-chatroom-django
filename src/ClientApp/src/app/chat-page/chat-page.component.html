@@ -1,0 +1,28 @@
+<div class="container" style="box-shadow: black ipx; max-width: 500px;">
+    <div class="chat" style="min-height: 200px;">
+        <div class="row">
+            Messages (User: {{username}})
+        </div>
+        <div class="row">
+            <div *ngFor="let mes of messages">
+                
+                <div *ngIf="mes.username == username" style="color: blue; justify-content: end; display: flex;">
+                    {{mes.message}} :You
+                </div>
+                <div *ngIf="mes.username != username">
+                    {{mes.username}}: {{mes.message}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="message row">
+        <div class="col">
+            <input class="form-control" type="text" [(ngModel)]="message" (keypress)="onMessageKeyPress($event)">
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" [disabled]="message.length <= 0" (click)="sendMessage()">Send</button>
+        </div>
+    </div>
+
+</div>
