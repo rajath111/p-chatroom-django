@@ -129,11 +129,55 @@ CHANNEL_LAYERS = {
 }
 ```
 
+## Ways to add connect to Web socket in Angular
+1. https://stackoverflow.com/questions/60952255/connecting-a-websocket-in-angular
+2. 
 
 ## Create User and group
+When socket connection is made, I am generating random user name and storing in the consumer. But, for production grade application we sholud use authenticated user and use that in scoket.
+
+The method ```channel_layer.group_add``` will create new group if it does not exists and requires group name and channel name as parameters.
+
+```
+async def connect(self):
+    # Generating random user name
+    self.user_name = str(random.randint(1, 10000))
+    
+    # Get room name from URL, Create chat room name with suffix to room name
+    self.room_name = self.scope['url_route']['kwargs']['room_name']
+    self.room_group_name = f'chat_{self.room_name}'
+
+    # Added the channel to the group, with group name is same as room name
+    await self.channel_layer.group_add(self.room_group_name, self.channel_name)
+
+    # Accect the socket
+    await self.accept()
+
+async def disconnect(self, code):
+    await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
+    return super().disconnect(code)
+```
 
 
 ## Broadcast message to group
+We can use ```channel_layer.group_send``` method to broadcast the message to all the channels in the group, we should specify the group name and the message which we want to broadcast.
+
+The ```type``` value corresponds to the method name in the consumer. In the below example, the type is specified as *chat.message*, which corresponds to *chat_message* method in the consumer.
+
+```
+class ChatConsumer(AsyncWebsocketConsumer):
+    # Receives message from Web socket
+    async def receive(self, text_data=None, bytes_data=None):
+        message = json.loads(text_data)['message']
+
+        # Consumer should have equivalent method to the type passed
+        await self.channel_layer.group_send(self.room_group_name, {"type": "chat.message", "message": f"{self.user_name} : {message}"})
+
+
+    # This receives message from Channel group
+    async def chat_message(self, event):
+        await self.send(text_data=json.dumps({'message': event['message']}))
+```
 
 
 ## Credits and Resources
