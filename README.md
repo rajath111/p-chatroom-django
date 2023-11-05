@@ -96,7 +96,22 @@ from chat.routing import ws_urlpatterns
 # AuthMiddlewareStack will add scope to the request and also populates the logged in user.
 ```
 
-# Adding channel support for Websocket
+## Channel Layers
+Channel layers allow you to talk between different instances of an application.
+
+Use CHANNEL_LAYERS to add and configure channel layers in Django application.
+
+```Channel layers have a purely async interface (for both send and receive); you will need to wrap them in a converter if you want to call them from synchronous code (see below).```
+
+By default the send(), group_send(), group_add() and other functions are async functions, meaning you have to await them. If you need to call them from synchronous code, you’ll need to use the handy asgiref.sync.async_to_sync wrapper:
+
+```
+from asgiref.sync import async_to_sync
+
+async_to_sync(channel_layer.send)("channel_name", {...})
+```
+
+## Adding channel support for Websocket
 A channel is a mailbox where messages can be sent to. Each channel has a name. Anyone who has the name of a channel can send a message to the channel.
 
 A group is a group of related channels. A group has a name. Anyone who has the name of a group can add/remove a channel to the group by name and send a message to all channels in the group. It is not possible to enumerate what channels are in a particular group.
