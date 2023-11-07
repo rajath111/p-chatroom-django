@@ -189,4 +189,68 @@ While creating this application, I have refered to the following resources. For 
 
 1. https://www.youtube.com/watch?v=F4nwRQPXD8w&list=WL&index=20&t=2099s
 2. https://channels.readthedocs.io/en/latest/introduction.html
-3. 
+
+
+
+
+
+## Adding Google Authentication to Django app
+1. Create Django project and app
+2. Install django-cors-headers
+3. Install google-api-python-client
+4. Update settings.py
+   ```
+    GOOGLE_CLIENT_ID = <CLIENT_ID>
+    SOCIAL_SECRET = <SOCIAL_SECRET>
+    CORS_ORIGIN_ALLOW_ALL = True
+
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'corsheaders.middleware.CorsMiddleware',                          # <<< newly added line
+    ]
+
+
+   ```
+5. Add this to middlewares
+   'corsheaders.middleware.CorsMiddleware', 
+
+
+6. Add a serializer
+```
+from django.conf import settings
+from rest_framework import serializers
+from library.sociallib import google
+from library.register.register import register_social_user
+from rest_framework.exceptions import AuthenticationFailed
+
+class GoogleSocialAuthSerializer(serializers.Serializer):
+    auth_token = serializers.CharField()
+
+    def validate_auth_token(self, auth_token):
+        user_data = google.Google.validate(auth_token)
+        try:
+            user_data['sub']
+        except:
+            raise serializers.ValidationError(
+                'The token is invalid or expired. Please login again.'
+            )
+        print(user_data['aud'])
+        if user_data['aud'] != settings.GOOGLE_CLIENT_ID:
+
+            raise AuthenticationFailed('oops, who are you?')
+
+        user_id = user_data['sub']
+        email = user_data['email']
+        name = user_data['name']
+        provider = 'google'
+
+        return register_social_user(
+            provider=provider, user_id=user_id, email=email, name=name)
+
+```
