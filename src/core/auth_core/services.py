@@ -1,6 +1,8 @@
-from auth_core.serializers import RegisterSerializer, LoginSerializer
+from rest_framework.exceptions import AuthenticationFailed
 
+from auth_core.serializers import RegisterSerializer, LoginSerializer
 from auth_core.models import CustomUser
+from auth_core.authentication import JwtAuthentication
 
 class AuthService:
 
@@ -23,10 +25,10 @@ class AuthService:
         user = CustomUser.objects.filter(username=username).first()
 
         if user is None:
-            return None
+            raise AuthenticationFailed('User does not exists')
 
         if user.password == loginData.data['password']:
-            return 'True'
+            return JwtAuthentication.get_token(user)
 
-        return None
+        raise AuthenticationFailed('Username and password does not match')
         

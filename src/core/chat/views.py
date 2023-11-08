@@ -1,9 +1,19 @@
 from django.shortcuts import render
 from django.http.request import HttpRequest
 
+from rest_framework.generics import GenericAPIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
-def test(request: HttpRequest):
-    return render(request,  template_name='chat/test.html')
+from auth_core.authentication import JwtAuthentication
+
+
+class TestAPIView(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JwtAuthentication]
+
+    def get(self, request):
+        return Response({'message': 'Server running successfully'})
 
 
 def index(request: HttpRequest):
