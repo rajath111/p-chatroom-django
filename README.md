@@ -190,6 +190,9 @@ While creating this application, I have refered to the following resources. For 
 1. https://www.youtube.com/watch?v=F4nwRQPXD8w&list=WL&index=20&t=2099s
 2. https://channels.readthedocs.io/en/latest/introduction.html
 3. Custom JWT Auth - https://medium.com/codex/django-rest-framework-custom-jwt-authentication-backend-17bbd178b4fd#:~:text=Firstly%2C%20we%20are%20going%20to,which%20we%20call%20it%20ObtainTokenView%20.
+4. Adding Angular Interceptors: https://angular.io/guide/http-intercept-requests-and-responses
+5. Custom Form validators in Angular: https://angular.io/guide/form-validation
+6. Eanble CORS headers in Django - https://www.geeksforgeeks.org/how-to-enable-cors-headers-in-your-django-project/
 
 
 

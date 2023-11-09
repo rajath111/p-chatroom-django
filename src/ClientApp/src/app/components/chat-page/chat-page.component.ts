@@ -1,6 +1,6 @@
-import { Message } from './../models/message';
+import { Message } from '../../models/message';
 import { WebSocketSubject } from 'rxjs/webSocket';
-import { ChatSocketService } from './../services/chat-socket.service';
+import { ChatSocketService } from '../../services/chat-socket.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 
