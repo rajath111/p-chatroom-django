@@ -1,3 +1,4 @@
+import { UserLoginModel } from './../models/user-login.model';
 import { environment } from './../../environments/environment';
 import { Observable } from 'rxjs';
 import { UserRegisterationModel } from './../models/user-registeration.model';
@@ -15,5 +16,9 @@ export class AuthService {
 
   public registerUser(userModel: UserRegisterationModel): Observable<UserRegisterationModel> {
     return this.httpClient.post<UserRegisterationModel>(environment.apiBaseUrl + 'auth/register/', userModel);
+  }
+
+  public login(loginModel: UserLoginModel): Observable<any> {
+    return this.httpClient.post<any>(`${environment.apiBaseUrl}auth/login/`, loginModel);
   }
 }

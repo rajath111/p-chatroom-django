@@ -1,3 +1,4 @@
+import { Constants } from './../../constants/constants';
 import { UserRegisterationModel } from './../../models/user-registeration.model';
 import { AuthService } from './../../services/auth.service';
 import { Component } from '@angular/core';
@@ -13,7 +14,6 @@ import { Router } from '@angular/router';
 })
 export default class RegisterComponent {
   form: FormGroup;
-  successMessage: string = '';
   errorMessage: string = '';
 
   constructor(private readonly fromBuilder: FormBuilder, private readonly authService: AuthService, private readonly router: Router) {
@@ -31,9 +31,8 @@ export default class RegisterComponent {
     if(this.form.valid) {
       this.authService.registerUser(this.getUserRegisterationModel()).subscribe(
         (data: UserRegisterationModel) => {
-          this.successMessage = `User ${data.username} registered successfully. Please login via login page`;
           this.router.navigate(['login'], {queryParams: {
-            autoRedirectAfterRegisteration: true
+            registeredUser: data.username,
           }});
         },
         error => {

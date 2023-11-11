@@ -1,14 +1,8 @@
 <div class="row justify-content-center">
   <div class="col-sm-10 col-md-8 col-lg-4">
     <h3>Register</h3>
-    <div *ngIf="errorMessage || successMessage; else registrationForm;">
-      <div *ngIf="successMessage" style="color: rgb(51, 208, 51);">
-        <p>{{ successMessage }}</p>
-      </div>
-        
-      <div *ngIf="errorMessage" class="error-message"> 
-        <p>{{ errorMessage }}</p>
-      </div>
+    <div *ngIf="errorMessage; else registrationForm;">
+      <p>{{ errorMessage }}</p>
     </div>
       
     <ng-template #registrationForm>
