@@ -13,6 +13,7 @@ from django.core.asgi import get_asgi_application
 from channels.security.websocket import AllowedHostsOriginValidator
 from channels.auth import AuthMiddlewareStack
 from chat.routing import ws_urlpatterns
+from auth_core.middleware import WebSocketAuthMiddleware
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
@@ -22,8 +23,10 @@ application = ProtocolTypeRouter({
     # Just HTTP for now. (We can add other protocols later.)
     'websocket': AllowedHostsOriginValidator(
         # Provides scope and logged in user details.
-        AuthMiddlewareStack(
-            URLRouter(ws_urlpatterns)
+        WebSocketAuthMiddleware(
+            AuthMiddlewareStack(
+                URLRouter(ws_urlpatterns)
+            )
         )
     )
 })
