@@ -1,3 +1,4 @@
+import { Constants } from './../constants/constants';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
@@ -12,7 +13,8 @@ export class ChatSocketService {
 
   public connect(roomName: string): WebSocketSubject<any> {
     if(!this.connection$) {
-      const url = `${this.socketUrl}${roomName}/`
+      const access_token = sessionStorage.getItem(Constants.accessToken);
+      const url = `${this.socketUrl}${roomName}/?access_token=${access_token}`
       this.connection$ = webSocket(url,);
     }
     return this.connection$;
