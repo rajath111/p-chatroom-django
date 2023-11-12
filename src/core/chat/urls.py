@@ -1,8 +1,7 @@
 from django.urls import path
-from .views import TestAPIView, index, room
+from chat.views import TestAPIView, RoomAPIView
 
 urlpatterns = [
     path('test/', TestAPIView.as_view(), name='chat-test'),
-    path('', index, name='chat-home'),
-    path('<str:room_name>/', room, name='chat-room'),
+    path('room/', RoomAPIView.as_view(), name='chat-room'),
 ]

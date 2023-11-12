@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Message } from '../../models/message';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { ChatSocketService } from '../../services/chat-socket.service';
@@ -11,7 +12,7 @@ import { Subject, takeUntil } from 'rxjs';
   providers: [ChatSocketService],
 })
 export class ChatPageComponent implements OnInit, OnDestroy {
-  room_name = 'room1';
+  room_id = '';
   username: string = '';
   message: string = '';
   messages: Message[] = [];
@@ -19,13 +20,14 @@ export class ChatPageComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject();
   private socketConnection?: WebSocketSubject<any>;
 
-  constructor(private readonly chatSocketService: ChatSocketService) {
+  constructor(private readonly chatSocketService: ChatSocketService, private readonly activatedRoute: ActivatedRoute) {
 
   }
 
   ngOnInit(): void {
+    this.room_id = this.activatedRoute.snapshot.queryParams['room_id'];
     // Make web socket connect to room
-    this.socketConnection = this.chatSocketService.connect(this.room_name);
+    this.socketConnection = this.chatSocketService.connect(this.room_id);
 
     this.socketConnection.pipe(
       takeUntil(this.destroy$)

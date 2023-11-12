@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from chat.views import UserDetailsAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('chat/', include('chat.urls')),
     path('auth/', include('auth_core.urls')),
+    path('user/', UserDetailsAPIView.as_view(), name='user-details')
 ]

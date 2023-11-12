@@ -7,6 +7,10 @@ class CustomUser(AbstractUser):
     age = models.FloatField('age', blank=False)
 
 
+    def __str__(self) -> str:
+        return f'CustomUser(username={self.username})'
+
+
     # Register is simple: They provide user name and password. 
 
     # Login : Users will provide user name and password. The app will return Bearer token. Verify using that.

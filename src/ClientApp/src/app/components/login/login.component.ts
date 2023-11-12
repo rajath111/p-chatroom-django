@@ -53,6 +53,7 @@ export class LoginComponent {
       // On Success store bearer key and redirect to home
       data => {
         sessionStorage.setItem(Constants.accessToken, data['token']);
+        this.router.navigate(['home']);
       },
       // Show error message
       error => {

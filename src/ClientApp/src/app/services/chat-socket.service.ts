@@ -13,7 +13,7 @@ export class ChatSocketService {
   public connect(roomName: string): WebSocketSubject<any> {
     if(!this.connection$) {
       const url = `${this.socketUrl}${roomName}/`
-      this.connection$ = webSocket(url);
+      this.connection$ = webSocket(url,);
     }
     return this.connection$;
   }

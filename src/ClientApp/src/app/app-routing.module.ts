@@ -1,3 +1,4 @@
+import { HomeComponent } from './components/home/home.component';
 import { ChatPageComponent } from './components/chat-page/chat-page.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -17,6 +18,14 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
   },
+  {
+    path: 'home',
+    component: HomeComponent,
+  },
+  {
+    path: '**',
+    component: LoginComponent,
+  }
 ];
 
 @NgModule({

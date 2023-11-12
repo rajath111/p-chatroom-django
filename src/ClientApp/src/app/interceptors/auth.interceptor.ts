@@ -1,6 +1,6 @@
-import { Constants } from './../constants/constants';
+import { Constants } from '../constants/constants';
 import { Router } from '@angular/router';
-import { environment } from './../../environments/environment';
+import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse
@@ -33,6 +33,10 @@ export class AuthInterceptor implements HttpInterceptor {
     if(token == null) {
       this.redirectLogin();
     }
+
+    req = req.clone({
+      headers: req.headers.append('Authorization', `Bearer ${token}`),
+    });
 
     return next.handle(req).pipe(
       tap((data) => {

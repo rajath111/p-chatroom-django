@@ -6,6 +6,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user_name = str(random.randint(1, 10000))
         
+        print(self.scope['user'])
+        
         # Get room name from URL, Create chat room name with suffix to room name
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = f'chat_{self.room_name}'
