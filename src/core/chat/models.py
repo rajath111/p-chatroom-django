@@ -17,3 +17,11 @@ class Room(TrackingModel):
 
     def __str__(self) -> str:
         return f'Room(room_name={self.room_name}, owner_id={self.owner_id}, room_status={self.room_status})'
+
+
+class RoomMembership(TrackingModel):
+    room = models.ForeignKey(to=Room, on_delete=models.CASCADE, blank=False)
+    user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, blank=False)
+
+    def __str__(self) -> str:
+        return f'RoomMembership(user_id={self.user_id}, room_id={self.room_id})'

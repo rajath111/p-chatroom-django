@@ -1,16 +1,17 @@
-<div class="row justify-content-center">
+<div class="row justify-content-start">
     <div class="user-details row m-1" *ngIf="userDetails">
-        <h4>Hey {{ userDetails.first_name }}!! Manage your rooms here.</h4>
+        <h4>Hey {{ userDetails.first_name }}!!</h4>
     </div>
-
-    
 
     <div class="row">
 
         <div class="room-list col-8">
-            <div class="row justify-content-between align-content-center">
-                <div class="col-3"><h4>My Rooms</h4></div>
-                <div class="col-1">
+            <div class="row justify-content-start align-content-center">
+                <div class="col">
+                    <h4>My Rooms</h4>
+                    
+                </div>
+                <div class="col">
                     <i class="bi bi-file-earmark-plus-fill" (click)="addRoomClick()" style="cursor: pointer;"></i>
                 </div>
             </div>
@@ -18,8 +19,8 @@
             <app-list-room></app-list-room>
         </div>
     
-        <div class="add-room col-4" *ngIf="addRoomEnabled">
-            <app-add-room (roomAdded)="afterRoomAdded($event)"></app-add-room>
+        <div class="col-4">
+            <router-outlet></router-outlet>
         </div>
     </div>
     

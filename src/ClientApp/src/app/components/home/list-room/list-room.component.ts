@@ -19,14 +19,12 @@ export class ListRoomComponent implements OnInit {
     this.refreshRooms();
   }
 
-  public updateStatus(roomId: string, status: string) {
-    this.roomService.updateRoomStatus(roomId, status).subscribe((data) => {
-      this.refreshRooms();
-    });
+  public openChatPage(roomId: string): void {
+    this.router.navigate(['chat'], {queryParams: {'room_id': roomId} });
   }
 
-  public openChatPage(room_id: string): void {
-    this.router.navigate(['chat'], {queryParams: {'room_id': room_id} });
+  public editRoom(roomId: string): void {
+    this.router.navigate(['home', 'edit', roomId]);
   }
 
   private refreshRooms(): void {

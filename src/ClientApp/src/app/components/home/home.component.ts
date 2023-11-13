@@ -1,6 +1,7 @@
 import { UserDetails } from './../../models/user_details.model';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,9 +11,8 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit{
 
   public userDetails?: UserDetails;
-  public addRoomEnabled: boolean = false;
 
-  constructor(private readonly userService: UserService) {
+  constructor(private readonly userService: UserService, private readonly router: Router) {
 
   }
 
@@ -25,11 +25,7 @@ export class HomeComponent implements OnInit{
   }
 
   public addRoomClick(): void {
-    this.addRoomEnabled = true;
-  }
-
-  public afterRoomAdded(value: boolean): void {
-    this.addRoomEnabled = false;
+    this.router.navigate(['home', 'add']);
   }
 
 }

@@ -3,19 +3,13 @@
     <div class="row" *ngFor="let room of allRooms;">
         <div class="col-6">{{ room.room_name }}</div>
         <div class="col-2">{{ room.room_status }}</div>
+        <div class="col-1" *ngIf="room.owner_id;">
+            <i (click)="editRoom(room.id)" class="bi bi-pencil-square" style="cursor: pointer;"></i>
+        </div>
+
         <!-- Open room chat -->
         <div class="col-1" *ngIf="room.room_status == 'Open'">
             <i (click)="openChatPage(room.id)" class="bi bi-chat-dots" style="cursor: pointer;"></i>
         </div>
-        <!-- Open the room -->
-        <div class="col-1" *ngIf="room.room_status == 'Closed'; else closeBlock;">
-            <i (click)="updateStatus(room.id, 'Open')" class="bi bi-envelope-open" style="cursor: pointer;"></i>
-        </div>
-        <ng-template #closeBlock>
-            <!-- Close room -->
-            <div class="col-1">
-                <i (click)="updateStatus(room.id, 'Closed')" class="bi bi-door-closed" style="cursor: pointer;"></i>
-            </div>
-        </ng-template>
     </div>
 </div>

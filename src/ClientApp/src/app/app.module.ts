@@ -13,6 +13,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { AddRoomComponent } from './components/home/add-room/add-room.component';
 import { ListRoomComponent } from './components/home/list-room/list-room.component';
+import { EditRoomComponent } from './components/home/edit-room/edit-room.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ListRoomComponent } from './components/home/list-room/list-room.compone
     LoginComponent,
     HomeComponent,
     AddRoomComponent,
-    ListRoomComponent
+    ListRoomComponent,
+    EditRoomComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,4 @@
+import { RoomMembership } from './../models/membership.model';
 import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { RoomDetails } from './../models/room/room-details.mode';
@@ -16,14 +17,31 @@ export class RoomService {
   }
 
   public getRoom(roomId: string): Observable<RoomDetails> {
-    return this.httpClient.get<RoomDetails>(`${environment.apiBaseUrl}chat/room/${roomId}`);
+    return this.httpClient.get<RoomDetails>(`${environment.apiBaseUrl}chat/room/${roomId}/`);
   }
+
+  public deleteRoom(roomId: string): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiBaseUrl}chat/room/${roomId}/`);
+  } 
 
   public getAllRooms(): Observable<RoomDetails[]> {
     return this.httpClient.get<RoomDetails[]>(`${environment.apiBaseUrl}chat/room/`);
   }
 
-  public updateRoomStatus(id: string, status: string): Observable<RoomDetails> {
-    return this.httpClient.put<RoomDetails>(`${environment.apiBaseUrl}chat/room/`, {'room_status': status, 'room_id': id});
+  public updateRoom(id: string, roomDetails: RoomDetails): Observable<RoomDetails> {
+    return this.httpClient.put<RoomDetails>(`${environment.apiBaseUrl}chat/room/${id}/`, roomDetails);
   }
+
+  public getMembers(roomId: string): Observable<RoomMembership[]> {
+    return this.httpClient.get<RoomMembership[]>(`${environment.apiBaseUrl}chat/members/${roomId}/`);
+  }
+
+  public createMember(membership: RoomMembership): Observable<RoomMembership> {
+    return this.httpClient.post<RoomMembership>(`${environment.apiBaseUrl}chat/members/`, membership);
+  }
+
+  public getUserAssociatedRooms(userId: string): Observable<RoomMembership[]> {
+    return this.httpClient.get<RoomMembership[]>(`${environment.apiBaseUrl}chat/members/`);
+  }
+
 }

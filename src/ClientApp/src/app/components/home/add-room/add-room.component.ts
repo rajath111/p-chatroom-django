@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { RoomDetails } from './../../../models/room/room-details.mode';
 import { RoomService } from './../../../services/room.service';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
@@ -13,11 +14,8 @@ export class AddRoomComponent {
   public message: string = '';
   public errorMessage: string = '';
 
-  @Output('roomAdded')
-  public roomAdded: EventEmitter<boolean>;
 
-  constructor(private readonly fromBuilder: FormBuilder, private readonly roomService: RoomService) {
-    this.roomAdded = new EventEmitter<boolean>();
+  constructor(private readonly fromBuilder: FormBuilder, private readonly roomService: RoomService, private readonly router: Router) {
 
     this.form = fromBuilder.group({
       'room_name': fromBuilder.control('', {validators: [Validators.required, Validators.minLength(6)]}),
@@ -34,7 +32,7 @@ export class AddRoomComponent {
       (data: RoomDetails) => {
         this.message = `Room(${this.form?.value['room_name']}) added successfully!!`;
         this.form.reset();
-        this.roomAdded.next(true);
+        this.router.navigate(['home']);
       },
       error => {
         this.errorMessage = 'Failed to create the room. Please try again.';

@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="row">
+        <div class="col-9">
+            Eidt - {{ roomDetails?.room_name }}
+        </div>
+
+        <div class="col-1">
+            <i class="bi bi-file-earmark-plus-fill" (click)="openAddMember()" style="cursor: pointer;"></i>
+        </div>
+    
+    </div>
+
+    <div class="row">
+        <!-- Open the room -->
+        <div class="col-1" *ngIf="roomDetails?.room_status == 'Closed'; else closeBlock;">
+            <i (click)="updateStatus('Open')" class="bi bi-envelope-open" style="cursor: pointer;"></i>
+        </div>
+        <ng-template #closeBlock>
+            <!-- Close room -->
+            <div class="col-1">
+                <i (click)="updateStatus('Closed')" class="bi bi-door-closed" style="cursor: pointer;"></i>
+            </div>
+        </ng-template>
+
+        <!-- Delete Room -->
+        <div class="col-5" *ngIf="roomDetails?.owner_id;">
+            <i (click)="deleteRoom()" class="bi bi-trash" style="cursor: pointer;"></i>
+        </div>
+    </div>
+
+    <div col="row room-members">
+        Existing Users
+        <div col="row" *ngFor="let member of members;">
+            User Id - {{ member.user_id }}
+        </div>
+    </div>
+
+    <div class="row">
+        Add Member:
+        <div class="row justify-content-between">
+            <!-- <div class="col"><label for="memberId">Id: </label></div> -->
+            <div class="col"><input id="memberId" class="form-control" type="text" placeholder="id" required [(ngModel)]="memberId"></div>
+            <div class="col-6"><button class="btn btn-primary" (click)="addMember()">Add member</button></div>
+
+        </div>
+    </div>
+</div>

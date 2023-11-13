@@ -193,6 +193,8 @@ While creating this application, I have refered to the following resources. For 
 4. Adding Angular Interceptors: https://angular.io/guide/http-intercept-requests-and-responses
 5. Custom Form validators in Angular: https://angular.io/guide/form-validation
 6. Eanble CORS headers in Django - https://www.geeksforgeeks.org/how-to-enable-cors-headers-in-your-django-project/
+7. Authentication to Channels - https://channels.readthedocs.io/en/latest/topics/authentication.html
+8. Bootstrap Icons - https://icons.getbootstrap.com/
 
 
 
@@ -258,3 +260,46 @@ class GoogleSocialAuthSerializer(serializers.Serializer):
             provider=provider, user_id=user_id, email=email, name=name)
 
 ```
+
+
+## Serialization
+To serialize any model we can use ModelSerializer from rest_framework.serializers. If we want to serialize any object we can inherit from Serializer class.
+
+Creating serializer for a model.
+```
+class RoomSerializer(ModelSerializer):
+
+    class Meta:
+        model = Room
+        fields = ['id', 'room_name', 'owner_id', 'room_status', 'owner']
+        depth = 1
+
+```
+Where,
+model - specifies which model to serialize
+fields - specifies fields to serialize
+depth - upto to what level serialize(Eger loading)
+
+
+Creating nested serializer. We can create nested serializers for foreign ley linked objects.
+```
+class CustomUserSerializer(ModelSerializer):
+
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'first_name', 'last_name']
+
+
+class RoomSerializer(ModelSerializer):
+    owner = CustomUserSerializer(read_only=True)
+    class Meta:
+        model = Room
+        fields = ['id', 'room_name', 'owner_id', 'room_status', 'owner']
+```
+
+
+Specifying readonly fields:
+read_only_fields = [] # list of fields
+
+
+

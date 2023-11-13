@@ -1,9 +1,7 @@
-import { Constants } from './../../constants/constants';
 import { UserRegisterationModel } from './../../models/user-registeration.model';
 import { AuthService } from './../../services/auth.service';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { passwordValidator } from 'src/app/validators/password.validator';
 import { Router } from '@angular/router';
 
