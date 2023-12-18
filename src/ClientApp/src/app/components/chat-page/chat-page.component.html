@@ -6,11 +6,11 @@
         <div class="row">
             <div *ngFor="let mes of messages">
                 
-                <div *ngIf="mes.username == username" style="color: blue; justify-content: end; display: flex;">
+                <div *ngIf="mes.user.username == username" style="color: blue; justify-content: end; display: flex;">
                     {{mes.message}} :You
                 </div>
-                <div *ngIf="mes.username != username">
-                    {{mes.username}}: {{mes.message}}
+                <div *ngIf="mes.user.username != username">
+                    {{mes.user.username}}: {{mes.message}}
                 </div>
             </div>
         </div>

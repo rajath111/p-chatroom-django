@@ -1,8 +1,7 @@
-from django.shortcuts import render
 from django.http.request import HttpRequest
 from typing_extensions import Any
 
-from rest_framework.generics import GenericAPIView, DestroyAPIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.request import HttpRequest
 from rest_framework.status import HTTP_201_CREATED, HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_204_NO_CONTENT

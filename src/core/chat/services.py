@@ -1,6 +1,12 @@
+from typing import List
 from chat.models import Room, RoomMembership
 from auth_core.models import CustomUser
 from chat.serializers import RoomSerializer, RoomMembershipSerializer
+from channels.db import database_sync_to_async
+
+from chat.models import Message
+from chat.serializers import MessageSerializer
+
 
 class RoomService:
     def __init__(self) -> None:
@@ -71,7 +77,11 @@ class RoomService:
     def get_all_rooms(self, user: CustomUser) -> Room:
         assert user, 'User can not be None'
 
-        return Room.objects.filter(owner_id=user.id)
+        memberships = RoomMembership.objects.filter(user__id = user.id)
+
+        room_ids = [room.room.id for room in memberships]
+
+        return Room.objects.filter(id__in = room_ids)
 
 
 class RoomMembershipService:
@@ -130,3 +140,39 @@ class RoomMembershipService:
 
         return RoomMembership.objects.filter(user_id=user.id)
 
+
+
+class ConsumerService:
+    
+    def __init__(self) -> None:
+        pass
+
+
+    @database_sync_to_async
+    def get_room(self, room_id: str, user: CustomUser) -> Room:
+
+        membership = RoomMembership.objects.filter(room__id=room_id, user__id=user.id).first()
+
+        if membership is not None:
+            return Room.objects.filter(id=room_id, room_status='Open').first()
+
+        return None
+
+
+
+class MessageService:
+
+    def __init__(self) -> None:
+        pass
+
+    @database_sync_to_async
+    def create_message(self, user_id: int, room_id: int, message: str) -> Message:
+        message: Message = Message(user_id=user_id, room_id=room_id, message=message)
+        message.save()
+        serializer = MessageSerializer(instance=message)
+        return serializer.data
+
+
+    def get_last_n_messages(self, room_id: int, n: int) -> List[Message]:
+        messages = Message.objects.filter(room__id=room_id).order_by('-created_on')[:n]
+        return messages

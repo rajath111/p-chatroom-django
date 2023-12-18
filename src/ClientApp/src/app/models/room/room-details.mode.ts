@@ -1,4 +1,5 @@
 import { UserDetails } from './../user_details.model';
+
 export interface RoomDetails {
     id: string;
     room_name: string;

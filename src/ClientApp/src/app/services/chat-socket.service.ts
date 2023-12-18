@@ -1,3 +1,4 @@
+import { MessageType } from './../models/message';
 import { Constants } from './../constants/constants';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -22,7 +23,10 @@ export class ChatSocketService {
 
   public send(message: string) {
     this.connection$?.next({
-      'message': message,
+      'messageType': MessageType.USER_MESSAGE,
+      'data': {
+        'message': message,
+      }
     });
   }
 }

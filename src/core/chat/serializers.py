@@ -2,6 +2,7 @@ from rest_framework.serializers import ModelSerializer, IntegerField
 
 from chat.models import Room, RoomMembership
 from auth_core.models import CustomUser
+from chat.models import Message
 
 class CustomUserSerializer(ModelSerializer):
 
@@ -32,4 +33,16 @@ class RoomMembershipSerializer(ModelSerializer):
     class Meta:
         model = RoomMembership
         fields = ['room_id', 'user_id']
+
+
+
+class MessageSerializer(ModelSerializer):
+
+    user = CustomUserSerializer()
+    room = RoomSerializer()
+
+
+    class Meta:
+        model = Message
+        fields = ['id', 'user', 'message', 'room']
 

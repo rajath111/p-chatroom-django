@@ -1,9 +1,11 @@
+import { MessageService } from './../../services/message.service';
+import { BroadcastData } from './../../models/message';
 import { ActivatedRoute } from '@angular/router';
-import { Message } from '../../models/message';
+import { Message, MessageType, UsernameData } from '../../models/message';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { ChatSocketService } from '../../services/chat-socket.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { lastValueFrom, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-chat-page',
@@ -15,17 +17,31 @@ export class ChatPageComponent implements OnInit, OnDestroy {
   room_id = '';
   username: string = '';
   message: string = '';
-  messages: Message[] = [];
+  messages: BroadcastData[] = [];
 
   private destroy$ = new Subject();
   private socketConnection?: WebSocketSubject<any>;
 
-  constructor(private readonly chatSocketService: ChatSocketService, private readonly activatedRoute: ActivatedRoute) {
+  constructor(
+    private readonly chatSocketService: ChatSocketService, 
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly messageService: MessageService) {
 
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    
     this.room_id = this.activatedRoute.snapshot.queryParams['room_id'];
+
+    // Load Initial messages
+    // this.messages = await lastValueFrom(this.messageService.getMessagesByRoom(this.room_id));
+
+    this.messageService.getMessagesByRoom(this.room_id).subscribe(
+      data => {
+        this.messages = data;
+      }
+    )
+
     // Make web socket connect to room
     this.socketConnection = this.chatSocketService.connect(this.room_id);
 
@@ -33,11 +49,12 @@ export class ChatPageComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe(
       (data: Message) => {
-        if(data.messageType === 'username') {
-          this.username = data.username;
+        if(data.messageType === MessageType.USERNAME) {
+          const usernameData = data.data as UsernameData;
+          this.username = usernameData.username;
         }
         else {
-          this.addMessage(data);
+          this.addMessage(data.data as BroadcastData);
         }
       },
     );
@@ -74,7 +91,7 @@ export class ChatPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private addMessage(message: Message) {
+  private addMessage(message: BroadcastData) {
     this.messages.push(message);
   }
 

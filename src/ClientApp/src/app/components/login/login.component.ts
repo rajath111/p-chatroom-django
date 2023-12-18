@@ -24,7 +24,10 @@ export class LoginComponent {
     private readonly activatedRoute: ActivatedRoute,
     ) {
     this.form = fromBuilder.group({
-      'username': fromBuilder.control('', { validators: [Validators.required, Validators.email] }),
+      'username': fromBuilder.control('', { validators: [
+        Validators.required, 
+        // Validators.email
+      ] }),
       'password': fromBuilder.control('', { validators: [Validators.required, Validators.minLength(6)] }),
     }, );
 

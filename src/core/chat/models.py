@@ -25,3 +25,11 @@ class RoomMembership(TrackingModel):
 
     def __str__(self) -> str:
         return f'RoomMembership(user_id={self.user_id}, room_id={self.room_id})'
+
+
+class Message(TrackingModel):
+    
+    message = models.TextField(blank=False)
+    room = models.ForeignKey(to=Room, on_delete=models.CASCADE, blank=False)
+    user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, blank=False)
+    
