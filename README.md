@@ -1,5 +1,6 @@
 # Chat Room using Django Channels
 Web based chat room where users can create groups, add people to group and chat in those groups. This is similar to whats app chat, messanger chat, etc. 
+Purpose of this repository is to learn how Asynchronous web communication works(Socket duplex connection). And implement simple web based chat application using Django channels and Angular client framework.
 
 ## Software Requirements
 1. Python 3.7+
